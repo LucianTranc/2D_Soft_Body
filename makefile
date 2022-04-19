@@ -4,9 +4,9 @@ INC_PATH = -I /Library/Frameworks/SDL2.framework/Headers -I /Library/Frameworks/
 LDFLAGS = -l SDL2-2.0.0 -l SDL2_image-2.0.0 -l SDL2_ttf-2.0.0
 
 trancengine: main.o
-	$(CC) $(CFLAGS) $(INC_PATH) $(LDFLAGS) -framework OpengL bin/main.o bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/BallManager.o bin/Edge.o bin/Hole.o bin/Table.o bin/Cue.o -o play
+	$(CC) $(CFLAGS) $(INC_PATH) $(LDFLAGS) -framework OpengL bin/main.o bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/BallManager.o bin/Edge.o bin/Hole.o bin/Background.o bin/Cue.o -o play
 
-main.o: main.cpp bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/stb_image.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/BallManager.o bin/Edge.o bin/Hole.o bin/Table.o bin/Cue.o
+main.o: main.cpp bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/stb_image.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/BallManager.o bin/Edge.o bin/Hole.o bin/Background.o bin/Cue.o
 	$(CC) $(CFLAGS) $(INC_PATH) main.cpp -c -o bin/main.o
 
 bin/Renderer.o: Renderer.cpp Renderer.h
@@ -57,8 +57,8 @@ bin/Edge.o: Edge.cpp Edge.h
 bin/Hole.o: Hole.cpp Hole.h
 	$(CC) $(CFLAGS) $(INC_PATH) Hole.cpp -c -o bin/Hole.o
 
-bin/Table.o: Table.cpp Table.h
-	$(CC) $(CFLAGS) $(INC_PATH) Table.cpp -c -o bin/Table.o
+bin/Background.o: Background.cpp Background.h
+	$(CC) $(CFLAGS) $(INC_PATH) Background.cpp -c -o bin/Background.o
 
 bin/Cue.o: Cue.cpp Cue.h
 	$(CC) $(CFLAGS) $(INC_PATH) Cue.cpp -c -o bin/Cue.o

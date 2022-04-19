@@ -2,12 +2,14 @@
 #include "IndexBuffer.h"
 
 //clears the error list
-void GLClearError() {
+void GLClearError()
+{
     while(glGetError() != GL_NO_ERROR);
 }
 
 //prints all OpenGl errors created by the function call
-bool GLLogCall(const char* function, const char* file, int line) {
+bool GLLogCall(const char* function, const char* file, int line)
+{
     while(GLenum error = glGetError())
     {
         std::cout<<"[OpenGL Error] ("<<error<<"): "<<function<<" "<<file<<": "<<line<<std::endl;
@@ -17,8 +19,8 @@ bool GLLogCall(const char* function, const char* file, int line) {
 }
 
 //bind needed OpenGL structures and make a draw call
-void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const {
-
+void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const
+{
     shader.Bind();
     va.Bind();
     ib.Bind();
@@ -26,8 +28,16 @@ void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& 
     GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
 } 
 
-void Renderer::Clear() const{
-
+void Renderer::Clear() const
+{
+    glClearColor(r, g, b, a);
     glClear(GL_COLOR_BUFFER_BIT);
+}
 
+void Renderer::SetClearColour(float red, float green, float blue, float alpha)
+{
+    r = red;
+    g = green;
+    b = blue;
+    a = alpha;
 }

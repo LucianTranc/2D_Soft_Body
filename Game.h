@@ -12,7 +12,7 @@
 #include "Vector2D.h"
 #include "Collision.h"
 #include "Edge.h"
-#include "Table.h"
+#include "Background.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
@@ -47,7 +47,7 @@ public:
 	static TextureManager *textureManager;
 	static BallManager *ballManager;
 	static Vector2D *screenSize;
-	static Table *table;
+	static Background *background;
 	glm::mat4 projection;
     VertexArray * va;
 	VertexBuffer * vb;

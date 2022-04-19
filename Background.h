@@ -1,14 +1,13 @@
 #pragma once
 #include "Texture.h"
 
-class Table {
+class Background {
 
 public:
 
-    Table();
+    Background();
     void draw();
     void init();
     Texture * texture;
-
 
 };

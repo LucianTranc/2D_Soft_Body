@@ -1,20 +1,19 @@
-#include "Table.h"
+#include "Background.h"
 #include "AssetManager.h"
 #include "TextureManager.h"
 #include "Game.h"
 
-Table::Table() {
-
+Background::Background()
+{
 }
 
-void Table::init() {
-
+void Background::init()
+{
     texture = Game::assetManager->GetTexture("table");
-
 }
 
-void Table::draw() {
-
+void Background::draw()
+{
     texture->Bind();
     glm::vec3 translation(0, 0, 0);
     glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
@@ -23,5 +22,4 @@ void Table::draw() {
     texture->shader->Bind();
     texture->shader->SetUniformMat4f("u_MVP", mvp);
     Game::renderer->Draw(*(texture->va), *(texture->ib), *(texture->shader));
-
 }

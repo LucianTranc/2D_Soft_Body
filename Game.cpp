@@ -13,7 +13,7 @@ BallManager* Game::ballManager = new BallManager();
 bool Game::isRunning = false;
 Vector2D* Game::screenSize = new Vector2D();
 Renderer* Game::renderer = new Renderer();
-Table* Game::table = new Table();
+Background* Game::background = new Background();
 
 Game::Game() {
 
@@ -70,8 +70,8 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 	//load all game assets (textures and fonts)
 	loadAssets();
     
-	//initialize the table
-	table->init();
+	//initialize the background
+	background->init();
 
 	//create all the balls, edges and holes
     createBalls();
@@ -179,10 +179,13 @@ void Game::update() {
 
 void Game::render() {
 
-	renderer->Clear();
-    glClear(GL_COLOR_BUFFER_BIT);
+	renderer->SetClearColour(0.0f, 0.1f, 0.4f, 1.0f);
 
-    table->draw();
+	renderer->Clear();
+
+    //background->draw();
+
+	ballManager->drawEdges();
 
     ballManager->drawBalls();
 
