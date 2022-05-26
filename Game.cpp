@@ -101,7 +101,7 @@ void Game::loadAssets() {
     assetManager->AddTexture("yellow", "assets/bb_yellow.png", 26.0f, 26.0f, 1270, 670);
     assetManager->AddTexture("table", "assets/PoolTable.png", 1270.0f, 670.0f, 1270, 670);
     assetManager->AddTexture("cue", "assets/cue.png", 420.0f, 170.0f, 1270, 670);
-    assetManager->AddShader("line", "shaders/linev2.shader");
+    assetManager->AddShader("line", "shaders/line.shader");
 
 	//enable OpenGl blending and set a blending function
     GLCall(glEnable(GL_BLEND));
