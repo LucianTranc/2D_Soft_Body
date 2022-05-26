@@ -19,6 +19,15 @@ Edge::Edge(float pos1x, float pos1y, float pos2x, float pos2y, float r) {
 
     texture = Game::assetManager->GetTexture("ball2");
 
+    float nx = -(position1.y - position2.y);
+	float ny = (position1.x - position2.x);
+	float d = sqrt(nx*nx + ny * ny);
+	nx /= d;
+	ny /= d;
+
+    line1 = new Line(position1.x + nx * radius, position1.y + ny * radius, position2.x + nx * radius, position2.y + ny * radius);
+    line2 = new Line(position1.x - nx * radius, position1.y - ny * radius, position2.x - nx * radius, position2.y - ny * radius);
+
 }
 
 
@@ -47,16 +56,14 @@ void Edge::draw() {
         Game::renderer->Draw(*(texture->va), *(texture->ib), *(texture->shader));
     }
 
-    /* float nx = -(position1.y - position2.y);
-	float ny = (position1.x - position2.x);
-	float d = sqrt(nx*nx + ny * ny);
-	nx /= d;
-	ny /= d;
-    SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
+
+    /*SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
     SDL_RenderDrawLine(Game::renderer, position1.x + nx * radius, position1.y + ny * radius, position2.x + nx * radius, position2.y + ny * radius);
     SDL_RenderDrawLine(Game::renderer, position1.x - nx * radius, position1.y - ny * radius, position2.x - nx * radius, position2.y - ny * radius);
     SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255); */
-
+    
+    line1->draw();
+    line2->draw();
 }
 
 void Edge::update() {

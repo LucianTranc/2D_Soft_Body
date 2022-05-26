@@ -32,7 +32,7 @@ Texture * TextureManager::LoadTexture(const char* texturePath, float w, float h,
 
     glm::mat4 proj = glm::ortho(0.0, static_cast<double>(iw), static_cast<double>(ih), 0.0);
 
-    Shader * shader = new Shader("shaders/basic.shader");
+    Shader * shader = new Shader("shaders/texture.shader");
     shader->Bind();
     shader->SetUniformMat4f("u_MVP", proj);
     

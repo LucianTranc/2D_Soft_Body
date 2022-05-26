@@ -28,6 +28,14 @@ void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& 
     GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
 } 
 
+void Renderer::DrawLine(const VertexArray& va, const Shader& shader) const
+{
+    shader.Bind();
+    va.Bind();
+
+    GLCall(glDrawArrays(GL_LINES, 0, 2););
+} 
+
 void Renderer::Clear() const
 {
     glClearColor(r, g, b, a);

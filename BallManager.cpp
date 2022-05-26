@@ -18,21 +18,32 @@ void BallManager::drawGizmos() {
 }
 
 //draw all the balls
-void BallManager::drawBalls() {
-
+void BallManager::drawBalls()
+{
     for (auto & b : balls) {
     	b->draw();
 	}
-
 }
 
-//draw all the holes
-void BallManager::drawHoles() {
+void BallManager::drawSprings()
+{
+    for (auto & s : springs) {
+    	s->draw();
+	}
+}
 
+void BallManager::drawLines()
+{
+    for (auto & l : lines) {
+    	l->draw();
+	}
+}
+//draw all the holes
+void BallManager::drawHoles()
+{
     for (auto & h : holes) {
     	h->draw();
 	}
-
 }
 
 //draw all the edges
@@ -41,20 +52,6 @@ void BallManager::drawEdges() {
     for (auto & e : edges) {
     	e->draw();
 	}
-
-}
-
-//draw the cue
-void BallManager::drawCue() {
-
-    cue->draw();
-
-}
-
-//create the cue
-void BallManager::CreateCue() {
-    
-    cue = new Cue();
 
 }
 
@@ -71,15 +68,9 @@ bool BallManager::BallsAreMoving() {
 
 //Add a ball to the game
 //isCue is used to assign a ball as the cue ball
-void BallManager::AddBall(float px, float py, float r, int id, bool isCue, const char * texturePath) {
+void BallManager::AddBall(float px, float py, float r, int id, const char * texturePath) {
 
-    if (isCue) {
-        cueBall = new Ball(px, py, r, id, texturePath);
-        balls.push_back(cueBall);
-    }
-    else 
-        balls.push_back(new Ball(px, py, r, id, texturePath));
-
+    balls.push_back(new Ball(px, py, r, id, texturePath));
 }
 
 //add edge to the game
@@ -89,19 +80,25 @@ void BallManager::AddEdge(float px1, float py1, float px2, float py2, float r) {
 
 }
 
+//add spring to the game
+void BallManager::AddSpring(float px1, float py1, float px2, float py2) {
+
+    springs.push_back(new Spring(px1, py1, px2, py2));
+
+}
+
+void BallManager::AddLine(float px1, float py1, float px2, float py2) {
+
+    lines.push_back(new Line(px1, py1, px2, py2));
+
+}
+
 //add hole to the game
 void BallManager::AddHole(float px, float py, float r) {
 
     holes.push_back(new Hole(px, py, r));
 
 } 
-
-//respawn the cue ball
-void BallManager::RespawnCue() {
-
-    AddBall(350.0, 335.0, 13.0, 16, true, "white");
-
-}
 
 void BallManager::updatePhysics() {
 
@@ -166,17 +163,8 @@ void BallManager::updatePhysics() {
     	for (auto & h : holes) {
 			//check if the hole and ball collide
 			if (Collision::DetectCollisionHole(b, h)) {
-                //if the ball hits a hole and it is the cue ball, then a flag is raised
-                //The cueball will be respawned the next time all the balls are stationary
-                if (b == cueBall) {
-                    balls.erase(balls.begin() + ballindex);
-                    queueRespawn = true;
-                }
-                else
-                    balls.erase(balls.begin() + ballindex);
-                break;
+                balls.erase(balls.begin() + ballindex);
 			}
-            
 		}
         ballindex++;
 	} 
@@ -190,63 +178,45 @@ void BallManager::updatePhysics() {
 
 void BallManager::update() {
 
-    //if the respawn cue flag is raised then reset it and respawn the cue ball
-    if (queueRespawn && !BallsAreMoving()) {
-        queueRespawn = false;
-        RespawnCue();
-    }
-
-    //get the mouse position and calculate the angle between the mouse and the cueball
-    SDL_GetMouseState(&mousex, &mousey);
-	mouseangle = std::atan2(mousex - cueBall->position.x, mousey - cueBall->position.y);
-
     //update all balls
     for (auto& b : balls) {
         b->update();
     }
 
     //if the player presses the spacebar while the mouse is over a ball then mark it is a the drag ball
-    if (Game::event.type == SDL_KEYDOWN && Game::event.key.keysym.sym == SDLK_SPACE) {   
+    if (Game::keystates[SDL_SCANCODE_SPACE] && selectedDragBall == nullptr) {   
         for (auto& b : balls) {
-            if (abs(mousex - b->position.x) < b->radius && abs(mousey - b->position.y) < b->radius) {
+            if (abs(Game::mousex - b->position.x) < b->radius && abs(Game::mousey - b->position.y) < b->radius) {
                 selectedDragBall = b;
+                selectedDragBall->velocity.x = 0;
+                selectedDragBall->velocity.y = 0;
                 break;
             }
         }
     }
 
-    //if the player releases the spacebar then deselect the ball
-    if (Game::event.type == SDL_KEYUP && Game::event.key.keysym.sym == SDLK_SPACE) {
+    if (!Game::keystates[SDL_SCANCODE_SPACE])
+    {
+        if (selectedDragBall)
+        {
+            selectedDragBall->velocity.x = dragBallVelocity.x;
+            selectedDragBall->velocity.y = dragBallVelocity.y;
+        }
         selectedDragBall = nullptr; 
     }
+    
 
-    //if the mousebutton is pressed while no balls are moving then mark the cueball as the ball to hit
-    if ((Game::event.type == SDL_MOUSEBUTTONDOWN && selectedHitBall == nullptr) && !BallsAreMoving()) {
-        mousedown = true;
-        selectedHitBall = cueBall;
-    }
-    else if (mousedown && selectedHitBall) {
-        //if the mouse is being held down then add to the power of the hit and drag the cue backwards
-        hitPower += 4;
-        cue->ballSeparation = hitPower/2 + 5;
-
-    }
-    //if the mousebutton is released then reset the cue, add the the balls velocity and reset variables
-    if (Game::event.type == SDL_MOUSEBUTTONUP) {
-        cue->ballSeparation = 5;
-        if (selectedHitBall) {
-            selectedHitBall->velocity.x = -glm::sin(mouseangle) * hitPower / 50;
-            selectedHitBall->velocity.y = -glm::cos(mouseangle) * hitPower / 50;
-            hitPower = 0;
-        }
-        selectedHitBall = nullptr;
-        mousedown = false;
-    }
+    //if the player releases the spacebar then deselect the ball
+    /* if (Game::event.type == SDL_KEYUP && Game::event.key.keysym.sym == SDLK_SPACE) {
+        selectedDragBall = nullptr; 
+    } */
 
     //if there is a drag ball selected then move it
     if (selectedDragBall) {
-        selectedDragBall->position.x = mousex;
-        selectedDragBall->position.y = mousey;
+        dragBallVelocity.x = (Game::mousex - selectedDragBall->position.x);
+        dragBallVelocity.y = (Game::mousey - selectedDragBall->position.y);
+        selectedDragBall->position.x = Game::mousex;
+        selectedDragBall->position.y = Game::mousey;
     }
     
 }

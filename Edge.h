@@ -1,6 +1,7 @@
 #pragma once
 #include "AssetManager.h"
 #include <SDL.h>
+#include "Line.h"
 
 //Edges are composed of two positions on the board forming a line segment.
 //The edges collide with balls at a given radius distance resulting in a pill shaped collider
@@ -20,6 +21,8 @@ public:
     Vector2D position1;
     Vector2D position2;
     Texture * texture;
+    Line * line1;
+    Line * line2;
     float radius;
 
 };

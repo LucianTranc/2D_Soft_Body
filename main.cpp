@@ -17,12 +17,18 @@ int main(int argc, char* argv[]) {
 
 	game = new Game();
 
+    std::cout<<"starting init"<<std::endl;
 	game->init("Billiards", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1270, 670, false);
+    std::cout<<"done init"<<std::endl;
 
 	while (game->running()) {
 
+    	std::cout<<"mainloop"<<std::endl;
+
+		
 		frameStart = SDL_GetTicks();
 
+		game->getInputState();
 		game->handleEvents();
 		game->update();
 		game->render();

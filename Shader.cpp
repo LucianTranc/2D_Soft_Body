@@ -6,7 +6,7 @@
 #include "Renderer.h"
 #include <OpenGL/gl3.h>
 
-Shader::Shader(const std::string& filepath) : m_RendererID(0), m_FilePath(filepath)  {
+Shader::Shader(const std::string& filepath) : m_FilePath(filepath), m_RendererID(0)   {
 
     ShaderProgramSource source = ParseShader(filepath);
     m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);

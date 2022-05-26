@@ -19,6 +19,7 @@
 #include "Shader.h"
 #include "VertexBufferLayout.h"
 #include "Texture.h"
+#include "Line.h"
 #include "vendor/glm/glm.hpp"
 #include "vendor/glm/gtc/matrix_transform.hpp"
 
@@ -39,6 +40,7 @@ public:
 	bool running() { return isRunning; }
 	void render();
 	void clean();
+	void getInputState();
 
 	static Renderer *renderer;
 	static SDL_Event event;
@@ -48,13 +50,16 @@ public:
 	static BallManager *ballManager;
 	static Vector2D *screenSize;
 	static Background *background;
-	glm::mat4 projection;
+	static int mousex;
+	static int mousey;
+	static const Uint8* keystates;
+/* 	glm::mat4 projection;
     VertexArray * va;
 	VertexBuffer * vb;
     VertexBufferLayout * layout;
 	IndexBuffer * ib;
 	Shader * shader;
-	Texture * texture;
+	Texture * texture; */
 
 private:
 

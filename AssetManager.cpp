@@ -15,12 +15,27 @@ void AssetManager::AddTexture(std::string id, const char* path, float w, float h
 	textures.emplace(id, tex);
 }
 
+void AssetManager::AddShader(std::string id, const char* path)
+{
+	Shader * shader = new Shader(path);
+	shaders.emplace(id, shader);
+}
+
 //return the texture with the matching id, binding it in the process
 Texture* AssetManager::GetTexture(std::string id)
 {
 	if (textures[id]) {
 		textures[id]->Bind();
 		return textures[id];
+	}	
+	return nullptr;
+}
+
+Shader* AssetManager::GetShader(std::string id)
+{
+	if (shaders[id]) {
+		shaders[id]->Bind();
+		return shaders[id];
 	}	
 	return nullptr;
 }
