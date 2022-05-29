@@ -22,9 +22,6 @@ int main(int argc, char* argv[]) {
     std::cout<<"done init"<<std::endl;
 
 	while (game->running()) {
-
-    	std::cout<<"mainloop"<<std::endl;
-
 		
 		frameStart = SDL_GetTicks();
 

@@ -38,13 +38,6 @@ void BallManager::drawLines()
     	l->draw();
 	}
 }
-//draw all the holes
-void BallManager::drawHoles()
-{
-    for (auto & h : holes) {
-    	h->draw();
-	}
-}
 
 //draw all the edges
 void BallManager::drawEdges() {
@@ -81,9 +74,9 @@ void BallManager::AddEdge(float px1, float py1, float px2, float py2, float r) {
 }
 
 //add spring to the game
-void BallManager::AddSpring(float px1, float py1, float px2, float py2) {
+void BallManager::AddSpring(Ball * ball_1, Ball * ball_2) {
 
-    springs.push_back(new Spring(px1, py1, px2, py2));
+    springs.push_back(new Spring(ball_1, ball_2));
 
 }
 
@@ -92,13 +85,6 @@ void BallManager::AddLine(float px1, float py1, float px2, float py2) {
     lines.push_back(new Line(px1, py1, px2, py2));
 
 }
-
-//add hole to the game
-void BallManager::AddHole(float px, float py, float r) {
-
-    holes.push_back(new Hole(px, py, r));
-
-} 
 
 void BallManager::updatePhysics() {
 
@@ -157,22 +143,16 @@ void BallManager::updatePhysics() {
         Collision::DynamicCollision(c.first, c.second);
 	}
 
-    //check each ball with each hole
-    int ballindex = 0;
-    for (auto & b : balls) {
-    	for (auto & h : holes) {
-			//check if the hole and ball collide
-			if (Collision::DetectCollisionHole(b, h)) {
-                balls.erase(balls.begin() + ballindex);
-			}
-		}
-        ballindex++;
-	} 
+    for (auto& s : springs) {
+        s->updatePhysics();
+    }
 
     //update the physics of the balls after all the collisions
     for (auto& b : balls) {
         b->updatePhysics();
     }
+
+
 
 }
 
@@ -181,6 +161,10 @@ void BallManager::update() {
     //update all balls
     for (auto& b : balls) {
         b->update();
+    }
+
+    for (auto& s : springs) {
+        s->update();
     }
 
     //if the player presses the spacebar while the mouse is over a ball then mark it is a the drag ball

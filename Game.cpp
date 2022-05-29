@@ -111,33 +111,7 @@ void Game::loadAssets() {
 
 void Game::createBalls() {
 
-	ballManager->AddLine(300.0, 300.0, 700.0, 600.0);
-	ballManager->AddLine(400.0, 300.0, 700.0, 600.0);
-	ballManager->AddLine(500.0, 300.0, 700.0, 600.0);
-	ballManager->AddLine(600.0, 300.0, 700.0, 600.0);
-
-	//add all the balls to the ballManager
-	/* ballManager->AddBall(935.0, 335.0, 13.0, 1, "yellow");
-
-	ballManager->AddBall(935.0 + 24.0*1.0, 335.0 + 14.0*1.0, 13.0, 2, "red");
-	ballManager->AddBall(935.0 + 24.0*1.0, 335.0 - 14.0*1.0, 13.0, 3, "blue");
-
-	ballManager->AddBall(935.0 + 24.0*2.0, 335.0 - 14.0*2.0, 13.0, 4, "green");
-	ballManager->AddBall(935.0 + 24.0*2.0, 335.0 - 14.0*0.0, 13.0, 5, "black");
-	ballManager->AddBall(935.0 + 24.0*2.0, 335.0 + 14.0*2.0, 13.0, 6, "purple");
-
-	ballManager->AddBall(935.0 + 24.0*3.0, 335.0 - 14.0*3.0, 13.0, 7, "blue");
-	ballManager->AddBall(935.0 + 24.0*3.0, 335.0 - 14.0*1.0, 13.0, 8, "yellow");
-	ballManager->AddBall(935.0 + 24.0*3.0, 335.0 + 14.0*1.0, 13.0, 9, "orange");
-	ballManager->AddBall(935.0 + 24.0*3.0, 335.0 + 14.0*3.0, 13.0, 10, "brown");
-
-	ballManager->AddBall(935.0 + 24.0*4.0, 335.0 - 14.0*4.0, 13.0, 11, "brown");
-	ballManager->AddBall(935.0 + 24.0*4.0, 335.0 - 14.0*2.0, 13.0, 12, "green");
-	ballManager->AddBall(935.0 + 24.0*4.0, 335.0 + 14.0*0.0, 13.0, 13, "orange");
-	ballManager->AddBall(935.0 + 24.0*4.0, 335.0 + 14.0*2.0, 13.0, 14, "purple");
-	ballManager->AddBall(935.0 + 24.0*4.0, 335.0 + 14.0*4.0, 13.0, 15, "red"); */
-
-	ballManager->AddBall(935.0, 335.0, 13.0, 1, "white");
+	/* ballManager->AddBall(935.0, 335.0, 13.0, 1, "white");
 
 	ballManager->AddBall(935.0 + 24.0*1.0, 335.0 + 14.0*1.0, 13.0, 2, "white");
 	ballManager->AddBall(935.0 + 24.0*1.0, 335.0 - 14.0*1.0, 13.0, 3, "white");
@@ -155,31 +129,56 @@ void Game::createBalls() {
 	ballManager->AddBall(935.0 + 24.0*4.0, 335.0 - 14.0*2.0, 13.0, 12, "white");
 	ballManager->AddBall(935.0 + 24.0*4.0, 335.0 + 14.0*0.0, 13.0, 13, "white");
 	ballManager->AddBall(935.0 + 24.0*4.0, 335.0 + 14.0*2.0, 13.0, 14, "white");
-	ballManager->AddBall(935.0 + 24.0*4.0, 335.0 + 14.0*4.0, 13.0, 15, "white");
+	ballManager->AddBall(935.0 + 24.0*4.0, 335.0 + 14.0*4.0, 13.0, 15, "white"); */
 
-	//cue ball
-	ballManager->AddBall(350.0, 335.0, 13.0, 16, "white");
+
+	ballManager->AddBall(1030.0f, 180.0, 13.0, 1, "white"); //0,0
+	ballManager->AddBall(1030.0f + 30.0, 180.0, 13.0, 2, "white"); //1,0
+	ballManager->AddBall(1030.0f, 180.0 + 30.0, 13.0, 3, "white"); //0,1
+	ballManager->AddBall(1030.0f + 30.0, 180.0 + 30.0, 13.0, 4, "white"); //1,1
+	ballManager->AddBall(1030.0f + 60.0, 180.0, 13.0, 5, "white"); //2,0
+	ballManager->AddBall(1030.0f + 60.0, 180.0 + 30.0, 13.0, 6, "white"); //2,1
+	ballManager->AddBall(1030.0f + 60.0, 180.0 + 60.0, 13.0, 7, "white"); //2,2
+	ballManager->AddBall(1030.0f + 30.0, 180.0 + 60.0, 13.0, 8, "white"); //1,2
+	ballManager->AddBall(1030.0f, 180.0 + 60.0, 13.0, 9, "white"); //0,2
+	ballManager->AddSpring(ballManager->balls[0], ballManager->balls[1]);
+	ballManager->AddSpring(ballManager->balls[0], ballManager->balls[2]);
+	ballManager->AddSpring(ballManager->balls[0], ballManager->balls[3]);
+	ballManager->AddSpring(ballManager->balls[3], ballManager->balls[2]);
+	ballManager->AddSpring(ballManager->balls[3], ballManager->balls[1]);
+	ballManager->AddSpring(ballManager->balls[2], ballManager->balls[1]);
+	ballManager->AddSpring(ballManager->balls[4], ballManager->balls[1]);
+	ballManager->AddSpring(ballManager->balls[3], ballManager->balls[5]);
+	ballManager->AddSpring(ballManager->balls[6], ballManager->balls[7]);
+	ballManager->AddSpring(ballManager->balls[3], ballManager->balls[7]);
+	ballManager->AddSpring(ballManager->balls[2], ballManager->balls[8]);
+	ballManager->AddSpring(ballManager->balls[4], ballManager->balls[5]);
+	ballManager->AddSpring(ballManager->balls[5], ballManager->balls[6]);
+	ballManager->AddSpring(ballManager->balls[8], ballManager->balls[7]);
+	ballManager->AddSpring(ballManager->balls[2], ballManager->balls[7]);
+	ballManager->AddSpring(ballManager->balls[8], ballManager->balls[3]);
+	ballManager->AddSpring(ballManager->balls[3], ballManager->balls[6]);
+	ballManager->AddSpring(ballManager->balls[5], ballManager->balls[7]);
+	ballManager->AddSpring(ballManager->balls[3], ballManager->balls[4]);
+	ballManager->AddSpring(ballManager->balls[1], ballManager->balls[5]);
+
+
+
+	ballManager->AddBall(350.0, 335.0, 13.0, 1, "white");
+	ballManager->AddBall(400.0, 335.0, 13.0, 2, "white");
+	ballManager->AddSpring(ballManager->balls[0], ballManager->balls[1]);
+
 
 	//add edges to the ball manager
 
 	//ballManager->AddEdge(0.0, 50.0, 1155.0, 50.0, 25.0);
 
-	//ballManager->AddSpring(100.0, 500.0, 100.0, 200.0);
 
-	ballManager->AddEdge(112.0, 42.0, 593.0, 42.0, 25.0);
-	ballManager->AddEdge(678.0, 42.0, 1155.0, 42.0, 25.0);
-	ballManager->AddEdge(1222.0, 110.0, 1222.0, 560.0, 25.0);
-	ballManager->AddEdge(678.0, 625.0, 1155.0, 625.0, 25.0);
-	ballManager->AddEdge(112.0, 625.0, 593.0, 625.0, 25.0);
-	ballManager->AddEdge(45.0, 110.0, 45.0, 560.0, 25.0);
+	ballManager->AddEdge(0.0, 0.0, 1270.0, 0.0, 25.0);
+	ballManager->AddEdge(1270, 0.0, 1270.0, 670.0, 25.0);
+	ballManager->AddEdge(1270.0, 670.0, 0.0, 670.0, 25.0);
+	ballManager->AddEdge(0.0, 670.0, 0.0, 0.0, 25.0);
 
-	//add the holes to the ball manager
-	/* ballManager->AddHole(635.0, 42.0, 15);
-	ballManager->AddHole(59.0, 56.0, 15);
-	ballManager->AddHole(61.0, 614.0, 15);
-	ballManager->AddHole(635.0, 626.0, 15);
-	ballManager->AddHole(1207.0, 614.0, 15);
-	ballManager->AddHole(1207.0, 58.0, 15); */
 
 }
 

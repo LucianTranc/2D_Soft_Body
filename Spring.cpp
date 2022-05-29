@@ -2,104 +2,57 @@
 #include "Game.h"
 
 //initialize variables
-Spring::Spring(float pos1x, float pos1y, float pos2x, float pos2y) {
+Spring::Spring(Ball * ball_1, Ball * ball_2) {
 
-    std::cout<<"1"<<std::endl;
-
-    position1.x = pos1x;
-    position1.y = pos1y;
-    position2.x = pos2x;
-    position2.y = pos2y;
-
-    float positions[] = {
-        position1.x, position1.y,
-        position2.x, position2.y,
-    };
-
-    std::cout<<"2"<<std::endl;
-
-
-    shader = new Shader("shaders/line.shader");
-
-    va = new VertexArray();
-
-    vb = new VertexBuffer(positions, 4 * sizeof(float));
-
-	VertexBufferLayout * layout = new VertexBufferLayout();
-
-    std::cout<<"3"<<std::endl;
-
-
-    layout->Push<float>(2);
-    va->AddBuffer(*vb, *layout);
-
-    //glm::mat4 proj = glm::ortho(0.0f, 1270.0f, 670.0f, 0.0f);
-
-    shader->Bind();
-    //shader->SetUniformMat4f("MVP", proj);
-
-    std::cout<<"4"<<std::endl;
-
-    
-    va->Unbind();
-    vb->Unbind();
-    shader->Unbind();
-
-    std::cout<<"5"<<std::endl;
-
+    ball1 = ball_1;
+    ball2 = ball_2;
+    line = new Line(ball1->position.x, ball1->position.y, ball2->position.x, ball2->position.y);
 }
 
-//print the position of the spring
-void Spring::printSpring() {
-    std::cout<<"Spring"<<std::endl;
-    std::cout<<position1.x<<std::endl;
-    std::cout<<position1.y<<std::endl;
-    std::cout<<position2.x<<std::endl;
-    std::cout<<position2.y<<std::endl;
+void Spring::updatePhysics() {
+
+    length = sqrt(pow(ball2->position.x - ball1->position.x, 2) + pow(ball2->position.y - ball1->position.y, 2) * 1.0);
+
+    float relativeLength = length - restingLength;
+
+    vec2 directionA = {ball2->position.x - ball1->position.x, ball2->position.y - ball1->position.y};
+    vec2 directionB = {ball1->position.x - ball2->position.x, ball1->position.y - ball2->position.y};
+    vec2 normalizedDirectionA = directionA/length;
+    vec2 normalizedDirectionB = directionB/length;
+    vec2 velocityDifference = {ball2->velocity.x - ball1->velocity.x, ball2->velocity.y - ball1->velocity.y};
+    float dotProduct = dot(normalizedDirectionA, velocityDifference);
+    
+    vec2 dampingForceA = normalizedDirectionA * dotProduct;
+    vec2 dampingForceB = normalizedDirectionB * dotProduct;
+
+    vec2 springForceA = normalizedDirectionA * relativeLength;
+    vec2 springForceB = normalizedDirectionB * relativeLength;
+
+    springForceA = springForceA/5.0f;
+    springForceB = springForceB/5.0f;
+
+    ball1->velocity.x = ball1->velocity.x + springForceA.x;
+    ball1->velocity.y = ball1->velocity.y + springForceA.y;
+    ball2->velocity.x = ball2->velocity.x + springForceB.x;
+    ball2->velocity.y = ball2->velocity.y + springForceB.y;
+
+    dampingForceA = dampingForceA/10.0f;
+    dampingForceB = dampingForceB/10.0f;
+
+    ball1->velocity.x = ball1->velocity.x + dampingForceA.x;
+    ball1->velocity.y = ball1->velocity.y + dampingForceA.y;
+    ball2->velocity.x = ball2->velocity.x + dampingForceB.x;
+    ball2->velocity.y = ball2->velocity.y + dampingForceB.y;
+
+
+    // need an output x and y difference for both balls connected to the spring
+}
+
+void Spring::update() {
+
+    line->update(ball1->position.x, ball1->position.y, ball2->position.x, ball2->position.y);
 }
 
 void Spring::draw() {
-
-    std::cout<<"6"<<std::endl;
-
-
-    glm::vec3 translation(0, 0, 0);
-    glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
-    model = glm::scale(model, glm::vec3(1.0f));
-    glm::mat4 projection = glm::ortho(0.0, 1270.0, 670.0, 0.0);
-    glm::mat4 mvp = projection * model;
-
-    std::cout<<"7"<<std::endl;
-
-
-    shader->SetUniformMat4f("MVP", mvp);
-    shader->Bind();
-
-    std::cout<<"8"<<std::endl;
-
-
-    // Draw the line
-    //glDrawArrays(GL_LINES, 0, 2);
-    Game::renderer->DrawLine(*(va), *(shader));
-
-    std::cout<<"9"<<std::endl;
-
-
-    // need to give the spring a shader
-
-    /* Ball.draw()
-
-    if (texture) {
-        texture->Bind();
-        glm::vec3 translation(texPos.x, texPos.y, 0);
-        glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
-        model = glm::scale(model, glm::vec3(1.0f));
-        glm::mat4 projection = glm::ortho(0.0, 1270.0, 670.0, 0.0);
-        glm::mat4 mvp = projection * model;
-        texture->shader->Bind();
-        texture->shader->SetUniformMat4f("u_MVP", mvp);
-        Game::renderer->Draw(*(texture->va), *(texture->ib), *(texture->shader));
-    }
-    */
-
+    line->draw();
 }

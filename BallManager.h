@@ -2,7 +2,6 @@
 //#include "AssetManager.h"
 #include "Ball.h"
 #include "Edge.h"
-#include "Hole.h"
 #include "Spring.h"
 #include "Line.h"
 #include <SDL.h>
@@ -17,13 +16,11 @@ class BallManager {
 public:
 
     void AddBall(float px, float py, float r, int id, const char * texturePath);
-    void AddHole(float px, float py, float r);
     void AddEdge(float px1, float py1, float px2, float py2, float r);
-    void AddSpring(float px1, float py1, float px2, float py2);
+    void AddSpring(Ball * ball_1, Ball * ball_2);
     void AddLine(float px1, float py1, float px2, float py2);
     void drawGizmos();
     void drawBalls();
-    void drawHoles();
     void drawEdges();
     void drawSprings();
     void drawLines();
@@ -38,7 +35,6 @@ public:
     //list of game objects
     std::vector<Ball*> balls;
     std::vector<Edge*> edges;
-    std::vector<Hole*> holes;
     std::vector<Spring*> springs;
     std::vector<Line*> lines;
 
