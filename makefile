@@ -4,9 +4,9 @@ INC_PATH = -I /Library/Frameworks/SDL2.framework/Headers -I /Library/Frameworks/
 LDFLAGS = -l SDL2-2.0.0 -l SDL2_image-2.0.0 -l SDL2_ttf-2.0.0
 
 trancengine: main.o
-	$(CC) $(CFLAGS) $(INC_PATH) $(LDFLAGS) -framework OpengL bin/main.o bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/BallManager.o bin/Edge.o bin/Background.o bin/Spring.o bin/Line.o -o play
+	$(CC) $(CFLAGS) $(INC_PATH) $(LDFLAGS) -framework OpengL bin/main.o bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/ObjectManager.o bin/Edge.o bin/Background.o bin/Spring.o bin/Line.o bin/SoftBody.o -o play
 
-main.o: main.cpp bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/stb_image.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/BallManager.o bin/Edge.o bin/Background.o bin/Spring.o bin/Line.o
+main.o: main.cpp bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/stb_image.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/ObjectManager.o bin/Edge.o bin/Background.o bin/Spring.o bin/Line.o bin/SoftBody.o
 	$(CC) $(CFLAGS) $(INC_PATH) main.cpp -c -o bin/main.o
 
 bin/Renderer.o: Renderer.cpp Renderer.h
@@ -48,8 +48,8 @@ bin/Ball.o: Ball.cpp Ball.h
 bin/Collision.o: Collision.cpp Collision.h
 	$(CC) $(CFLAGS) $(INC_PATH) Collision.cpp -c -o bin/Collision.o
 
-bin/BallManager.o: BallManager.cpp BallManager.h
-	$(CC) $(CFLAGS) $(INC_PATH) BallManager.cpp -c -o bin/BallManager.o
+bin/ObjectManager.o: ObjectManager.cpp ObjectManager.h
+	$(CC) $(CFLAGS) $(INC_PATH) ObjectManager.cpp -c -o bin/ObjectManager.o
 
 bin/Edge.o: Edge.cpp Edge.h
 	$(CC) $(CFLAGS) $(INC_PATH) Edge.cpp -c -o bin/Edge.o
@@ -62,6 +62,9 @@ bin/Spring.o: Spring.cpp Spring.h
 
 bin/Line.o: Line.cpp Line.h
 	$(CC) $(CFLAGS) $(INC_PATH) Line.cpp -c -o bin/Line.o
+
+bin/SoftBody.o: SoftBody.cpp SoftBody.h
+	$(CC) $(CFLAGS) $(INC_PATH) SoftBody.cpp -c -o bin/SoftBody.o
 
 clean :
 	-rm *.o bin/*.o play

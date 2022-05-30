@@ -2,9 +2,8 @@
 #include "Game.h"
 
 //Set initialized variables
-Ball::Ball(float posx, float posy, float r, int ID, const char * texturePath) {
+Ball::Ball(float posx, float posy, float r,  const char * texturePath) {
 
-    id = ID;
     position.x = posx;
     position.y = posy;
     radius = r;
@@ -20,19 +19,11 @@ Ball::Ball(float posx, float posy, float r, int ID, const char * texturePath) {
 //print ball information to the console
 void Ball::printBall() {
     std::cout<<"Ball"<<std::endl;
-    std::cout<<id<<std::endl;
     std::cout<<position.x<<std::endl;
     std::cout<<position.y<<std::endl;
     std::cout<<velocity.x<<std::endl;
     std::cout<<velocity.y<<std::endl;
     std::cout<<mass<<std::endl;
-}
-
-//print the ball id
-void Ball::printID() {
-
-    std::cout<<id<<std::endl;
-
 }
 
 //resets a ball to the default cue location. This method is called only 

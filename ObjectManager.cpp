@@ -1,10 +1,10 @@
 #include "Ball.h"
-#include "BallManager.h"
+#include "ObjectManager.h"
 #include "Game.h"
 
 //this method was created when the SDL renderer was in use.
 //I didn't implement draw calls for lines with OpenGL since I used the gizmos for debugging more than anything.
-void BallManager::drawGizmos() {
+void ObjectManager::drawGizmos() {
 
     /* SDL_SetRenderDrawColor(Game::renderer, 0, 0, 255, 255);
 	for (auto& c : ballCollisions) {
@@ -18,21 +18,21 @@ void BallManager::drawGizmos() {
 }
 
 //draw all the balls
-void BallManager::drawBalls()
+void ObjectManager::drawBalls()
 {
     for (auto & b : balls) {
     	b->draw();
 	}
 }
 
-void BallManager::drawSprings()
+void ObjectManager::drawSprings()
 {
     for (auto & s : springs) {
     	s->draw();
 	}
 }
 
-void BallManager::drawLines()
+void ObjectManager::drawLines()
 {
     for (auto & l : lines) {
     	l->draw();
@@ -40,7 +40,7 @@ void BallManager::drawLines()
 }
 
 //draw all the edges
-void BallManager::drawEdges() {
+void ObjectManager::drawEdges() {
 
     for (auto & e : edges) {
     	e->draw();
@@ -49,7 +49,7 @@ void BallManager::drawEdges() {
 }
 
 //returns true if there are any balls in motion
-bool BallManager::BallsAreMoving() {
+bool ObjectManager::BallsAreMoving() {
     
     for (auto& b : balls) {
         if (b->velocity.x != 0 || b->velocity.y != 0) 
@@ -61,32 +61,47 @@ bool BallManager::BallsAreMoving() {
 
 //Add a ball to the game
 //isCue is used to assign a ball as the cue ball
-void BallManager::AddBall(float px, float py, float r, int id, const char * texturePath) {
+void ObjectManager::AddBall(float px, float py, float r, const char * texturePath) {
 
-    balls.push_back(new Ball(px, py, r, id, texturePath));
+    balls.push_back(new Ball(px, py, r, texturePath));
 }
 
 //add edge to the game
-void BallManager::AddEdge(float px1, float py1, float px2, float py2, float r) {
+void ObjectManager::AddEdge(float px1, float py1, float px2, float py2, float r) {
 
     edges.push_back(new Edge(px1, py1, px2, py2, r));
 
 }
 
 //add spring to the game
-void BallManager::AddSpring(Ball * ball_1, Ball * ball_2) {
+void ObjectManager::AddSpring(Ball * ball_1, Ball * ball_2) {
 
     springs.push_back(new Spring(ball_1, ball_2));
 
 }
 
-void BallManager::AddLine(float px1, float py1, float px2, float py2) {
+void ObjectManager::AddLine(float px1, float py1, float px2, float py2) {
 
     lines.push_back(new Line(px1, py1, px2, py2));
 
 }
 
-void BallManager::updatePhysics() {
+void ObjectManager::AddSoftBody(int px, int py, float h, float w)
+{
+    SoftBody * sb = new SoftBody(px, py, h, w);
+    softBodies.push_back(sb);
+    for (auto &b : sb->balls)
+    {
+        balls.push_back(b);
+    }
+    for (auto &s : sb->springs)
+    {
+        springs.push_back(s);
+    }
+
+}
+
+void ObjectManager::updatePhysics() {
 
     //clear the list of collisions
     ballCollisions.clear();
@@ -95,9 +110,11 @@ void BallManager::updatePhysics() {
     //this first loop checks all balls agains all other balls
 	for (auto & a : balls) {
     	for (auto & b : balls) {
+
             //skip when comparing a ball to itself
-			if (a->id == b->id)
+			if (a == b)
 				continue;
+
 			//check if balls collide
 			if (Collision::DetectCollision(a, b)) {
                 
@@ -130,7 +147,7 @@ void BallManager::updatePhysics() {
             //if collisionPoint isn't a nullptr then that means collision was detected
 			if (collisionPoint) {
                 //create a fake temporary ball at the point of collision and store the original ball and the fake ball in a pair
-                Ball* fakeBall = new Ball(collisionPoint->x, collisionPoint->y, e->radius, -1);
+                Ball* fakeBall = new Ball(collisionPoint->x, collisionPoint->y, e->radius);
                 fakeBall->velocity.x = -b->velocity.x;
                 fakeBall->velocity.y = -b->velocity.y;
 				edgeCollisions.push_back({b,fakeBall});
@@ -156,7 +173,7 @@ void BallManager::updatePhysics() {
 
 }
 
-void BallManager::update() {
+void ObjectManager::update() {
 
     //update all balls
     for (auto& b : balls) {

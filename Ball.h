@@ -9,9 +9,8 @@ class Ball {
 
 public:
 
-    Ball(float posx, float posy, float r, int ID, const char * texturePath = nullptr);
+    Ball(float posx, float posy, float r, const char * texturePath = nullptr);
 
-    void printID();
     void printBall();
     void draw();
     void update();
@@ -23,7 +22,6 @@ public:
     Vector2D velocity;
     Texture * texture;
     float radius;
-    int id;
     float mass = 100;
 
 };

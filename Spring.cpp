@@ -21,23 +21,23 @@ void Spring::updatePhysics() {
     vec2 normalizedDirectionB = directionB/length;
     vec2 velocityDifference = {ball2->velocity.x - ball1->velocity.x, ball2->velocity.y - ball1->velocity.y};
     float dotProduct = dot(normalizedDirectionA, velocityDifference);
-    
+
     vec2 dampingForceA = normalizedDirectionA * dotProduct;
     vec2 dampingForceB = normalizedDirectionB * dotProduct;
 
     vec2 springForceA = normalizedDirectionA * relativeLength;
     vec2 springForceB = normalizedDirectionB * relativeLength;
 
-    springForceA = springForceA/5.0f;
-    springForceB = springForceB/5.0f;
+    springForceA = springForceA/3.0f;
+    springForceB = springForceB/3.0f;
 
     ball1->velocity.x = ball1->velocity.x + springForceA.x;
     ball1->velocity.y = ball1->velocity.y + springForceA.y;
     ball2->velocity.x = ball2->velocity.x + springForceB.x;
     ball2->velocity.y = ball2->velocity.y + springForceB.y;
 
-    dampingForceA = dampingForceA/10.0f;
-    dampingForceB = dampingForceB/10.0f;
+    dampingForceA = dampingForceA/30.0f;
+    dampingForceB = dampingForceB/30.0f;
 
     ball1->velocity.x = ball1->velocity.x + dampingForceA.x;
     ball1->velocity.y = ball1->velocity.y + dampingForceA.y;

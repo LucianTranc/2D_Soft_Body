@@ -8,7 +8,7 @@
 #include "AssetManager.h"
 #include "TextureManager.h"
 #include "Ball.h"
-#include "BallManager.h"
+#include "ObjectManager.h"
 #include "Vector2D.h"
 #include "Collision.h"
 #include "Edge.h"
@@ -47,7 +47,7 @@ public:
 	static bool isRunning;
 	static AssetManager *assetManager;
 	static TextureManager *textureManager;
-	static BallManager *ballManager;
+	static ObjectManager *objectManager;
 	static Vector2D *screenSize;
 	static Background *background;
 	static int mousex;
