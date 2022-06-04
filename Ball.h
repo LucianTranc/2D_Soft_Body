@@ -22,6 +22,6 @@ public:
     Vector2D velocity;
     Texture * texture;
     float radius;
-    float mass = 100;
+    float mass = 10;
 
 };

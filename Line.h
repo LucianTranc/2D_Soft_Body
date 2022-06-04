@@ -36,6 +36,6 @@ public:
     Line(float startx, float starty, float endx, float endy);
     int setColor(vec3 color);
     int draw();
-    void update(float startx, float starty, float endx, float endy);
+    void update(float startx, float starty, float endx, float endy, vec3 color);
  
 };

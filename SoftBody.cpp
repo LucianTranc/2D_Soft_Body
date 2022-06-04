@@ -1,37 +1,34 @@
 #include "SoftBody.h"
 
-SoftBody::SoftBody(int xSpawn, int ySpawn, int height, int width)
+SoftBody::SoftBody(float xSpawn, float ySpawn, float spacing, int height, int width)
 {
-    balls.push_back(new Ball(1030.0f, 180.0, 13.0, "white")); //0,0
-    balls.push_back(new Ball(1030.0f + 30.0, 180.0, 13.0, "white")); //1,0
-    balls.push_back(new Ball(1030.0f, 180.0 + 30.0, 13.0, "white")); //0,1
-    balls.push_back(new Ball(1030.0f + 30.0, 180.0 + 30.0, 13.0, "white")); //1,1
-    balls.push_back(new Ball(1030.0f + 60.0, 180.0, 13.0, "white")); //2,0
-    balls.push_back(new Ball(1030.0f + 60.0, 180.0 + 30.0, 13.0, "white")); //2,1
-    balls.push_back(new Ball(1030.0f + 60.0, 180.0 + 60.0, 13.0, "white")); //2,2
-    balls.push_back(new Ball(1030.0f + 30.0, 180.0 + 60.0, 13.0, "white")); //1,2
-    balls.push_back(new Ball(1030.0f, 180.0 + 60.0, 13.0, "white")); //0,2
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = 0; j < height; j++)
+        {
+            balls.push_back(new Ball(xSpawn + (j*spacing), ySpawn + (i * spacing), 13.0, "white"));      
+        }
+    }
 
-    springs.push_back(new Spring(balls[0], balls[1]));
-    springs.push_back(new Spring(balls[0], balls[2]));
-    springs.push_back(new Spring(balls[0], balls[3]));
-    springs.push_back(new Spring(balls[3], balls[2]));
-    springs.push_back(new Spring(balls[3], balls[1]));
-    springs.push_back(new Spring(balls[2], balls[1]));
-    springs.push_back(new Spring(balls[4], balls[1]));
-    springs.push_back(new Spring(balls[3], balls[5]));
-    springs.push_back(new Spring(balls[6], balls[7]));
-    springs.push_back(new Spring(balls[3], balls[7]));
-    springs.push_back(new Spring(balls[2], balls[8]));
-    springs.push_back(new Spring(balls[4], balls[5]));
-    springs.push_back(new Spring(balls[5], balls[6]));
-    springs.push_back(new Spring(balls[8], balls[7]));
-    springs.push_back(new Spring(balls[2], balls[7]));
-    springs.push_back(new Spring(balls[8], balls[3]));
-    springs.push_back(new Spring(balls[3], balls[6]));
-    springs.push_back(new Spring(balls[5], balls[7]));
-    springs.push_back(new Spring(balls[3], balls[4]));
-    springs.push_back(new Spring(balls[1], balls[5]));
+    for (int i = 0; i < balls.size(); i++)
+    {
+        if ((i + 1) < balls.size() && (i + 1) % width != 0)
+        {
+            springs.push_back(new Spring(balls[i], balls[i+1]));
+        }
+        if ((i + width) < balls.size())
+        {
+            springs.push_back(new Spring(balls[i], balls[i + width]));
+        }
+        if ((i + width + 1) < balls.size() && (i + 1) % width != 0)
+        {
+            springs.push_back(new Spring(balls[i], balls[i + width + 1]));
+        }
+        if ((i - width + 1) < balls.size() && (i - width + 1) >= 0 && (i + 1) % width != 0)
+        {
+            springs.push_back(new Spring(balls[i], balls[i - width + 1]));
+        }
+    }
 
 }
 

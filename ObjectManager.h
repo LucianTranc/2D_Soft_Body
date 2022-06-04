@@ -20,7 +20,7 @@ public:
     void AddEdge(float px1, float py1, float px2, float py2, float r);
     void AddSpring(Ball * ball_1, Ball * ball_2);
     void AddLine(float px1, float py1, float px2, float py2);
-    void AddSoftBody(int px, int py, float h, float w);
+    void AddSoftBody(int px, int py, float s, float h, float w);
     void drawGizmos();
     void drawBalls();
     void drawEdges();

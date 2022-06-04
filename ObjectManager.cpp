@@ -86,9 +86,9 @@ void ObjectManager::AddLine(float px1, float py1, float px2, float py2) {
 
 }
 
-void ObjectManager::AddSoftBody(int px, int py, float h, float w)
+void ObjectManager::AddSoftBody(int px, int py, float s, float h, float w)
 {
-    SoftBody * sb = new SoftBody(px, py, h, w);
+    SoftBody * sb = new SoftBody(px, py, s, h, w);
     softBodies.push_back(sb);
     for (auto &b : sb->balls)
     {
@@ -214,6 +214,8 @@ void ObjectManager::update() {
 
     //if there is a drag ball selected then move it
     if (selectedDragBall) {
+        selectedDragBall->velocity.x = 0;
+        selectedDragBall->velocity.y = 0;
         dragBallVelocity.x = (Game::mousex - selectedDragBall->position.x);
         dragBallVelocity.y = (Game::mousey - selectedDragBall->position.y);
         selectedDragBall->position.x = Game::mousex;

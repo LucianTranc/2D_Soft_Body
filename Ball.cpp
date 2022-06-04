@@ -46,7 +46,7 @@ void Ball::draw() {
         glm::vec3 translation(texPos.x, texPos.y, 0);
         glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
         model = glm::scale(model, glm::vec3(1.0f));
-        glm::mat4 projection = glm::ortho(0.0, 1270.0, 670.0, 0.0);
+        glm::mat4 projection = glm::ortho(0.0, (double)Game::screenSize->x, (double)Game::screenSize->y, 0.0);
         glm::mat4 mvp = projection * model;
         texture->shader->Bind();
         texture->shader->SetUniformMat4f("u_MVP", mvp);
@@ -58,6 +58,9 @@ void Ball::draw() {
 //handles the physics updates for each ball
 void Ball::updatePhysics() {
     
+    //gravity
+    velocity.y = velocity.y + 0.05;
+
     //friction
     velocity.x = velocity.x * 0.997;
     velocity.y = velocity.y * 0.997;

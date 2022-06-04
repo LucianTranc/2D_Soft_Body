@@ -7,13 +7,15 @@ Spring::Spring(Ball * ball_1, Ball * ball_2) {
     ball1 = ball_1;
     ball2 = ball_2;
     line = new Line(ball1->position.x, ball1->position.y, ball2->position.x, ball2->position.y);
+    restingLength = sqrt(pow(ball2->position.x - ball1->position.x, 2) + pow(ball2->position.y - ball1->position.y, 2) * 1.0);
+
 }
 
 void Spring::updatePhysics() {
 
     length = sqrt(pow(ball2->position.x - ball1->position.x, 2) + pow(ball2->position.y - ball1->position.y, 2) * 1.0);
 
-    float relativeLength = length - restingLength;
+    relativeLength = length - restingLength;
 
     vec2 directionA = {ball2->position.x - ball1->position.x, ball2->position.y - ball1->position.y};
     vec2 directionB = {ball1->position.x - ball2->position.x, ball1->position.y - ball2->position.y};
@@ -28,16 +30,16 @@ void Spring::updatePhysics() {
     vec2 springForceA = normalizedDirectionA * relativeLength;
     vec2 springForceB = normalizedDirectionB * relativeLength;
 
-    springForceA = springForceA/3.0f;
-    springForceB = springForceB/3.0f;
+    springForceA = springForceA/20.0f;
+    springForceB = springForceB/20.0f;
 
     ball1->velocity.x = ball1->velocity.x + springForceA.x;
     ball1->velocity.y = ball1->velocity.y + springForceA.y;
     ball2->velocity.x = ball2->velocity.x + springForceB.x;
     ball2->velocity.y = ball2->velocity.y + springForceB.y;
 
-    dampingForceA = dampingForceA/30.0f;
-    dampingForceB = dampingForceB/30.0f;
+    dampingForceA = dampingForceA/5.0f;
+    dampingForceB = dampingForceB/5.0f;
 
     ball1->velocity.x = ball1->velocity.x + dampingForceA.x;
     ball1->velocity.y = ball1->velocity.y + dampingForceA.y;
@@ -50,7 +52,9 @@ void Spring::updatePhysics() {
 
 void Spring::update() {
 
-    line->update(ball1->position.x, ball1->position.y, ball2->position.x, ball2->position.y);
+    vec3 color = {relativeLength/5, 0, -relativeLength/5};
+
+    line->update(ball1->position.x, ball1->position.y, ball2->position.x, ball2->position.y, color);
 }
 
 void Spring::draw() {

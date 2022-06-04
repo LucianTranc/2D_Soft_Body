@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 	game = new Game();
 
     std::cout<<"starting init"<<std::endl;
-	game->init("Billiards", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1270, 670, false);
+	game->init("Billiards", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1400, 780, false);
     std::cout<<"done init"<<std::endl;
 
 	while (game->running()) {

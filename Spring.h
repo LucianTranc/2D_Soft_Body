@@ -15,8 +15,9 @@ public:
     void updatePhysics();
 
     float length;
-    float restingLength = 50;
-    float dampingFactor = 1;
+    float restingLength;
+    float relativeLength;
+    float dampingFactor;
 
     Ball * ball1;
     Ball * ball2;

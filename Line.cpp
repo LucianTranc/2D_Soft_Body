@@ -24,7 +24,7 @@ Line::Line(float startx, float starty, float endx, float endy) {
     va->Unbind();
     vb->Unbind();
 
-    MVP = glm::ortho(0.0f, 1270.0f, 670.0f, 0.0f);
+    MVP = glm::ortho(0.0f, Game::screenSize->x, Game::screenSize->y, 0.0f);
 
 }
 
@@ -44,10 +44,11 @@ int Line::draw() {
     return 1;
 }
 
-void Line::update(float startx, float starty, float endx, float endy) {
+void Line::update(float startx, float starty, float endx, float endy, vec3 color) {
 
     startPoint = vec2(startx, starty);
     endPoint = vec2(endx, endy);
+    lineColor = color;
 
     float positions[] = {
         startx, starty,

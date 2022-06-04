@@ -17,7 +17,7 @@ void Background::draw()
     texture->Bind();
     glm::vec3 translation(0, 0, 0);
     glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
-    glm::mat4 projection = glm::ortho(0.0, 1270.0, 670.0, 0.0);
+    glm::mat4 projection = glm::ortho(0.0, (double)Game::screenSize->x, (double)Game::screenSize->y, 0.0);
     glm::mat4 mvp = projection * model;
     texture->shader->Bind();
     texture->shader->SetUniformMat4f("u_MVP", mvp);
