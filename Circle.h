@@ -18,21 +18,15 @@ using glm::vec2;
 using glm::vec3;
 using glm::radians;
 using std::vector;
-
  
 class Circle {
+
 private:
     vector<float> vertices;
     vec2 position;
     float radius;
     mat4 MVP = mat4(1.0);
     vec3 color;
-/*  VertexArray * va;
-    VertexBuffer * vb;
-    VertexBufferLayout * layout; */
-    unsigned int VAO;
-    unsigned int VBO;
-    unsigned int EBO;
 
     Shader * shader;
     VertexArray * va;
@@ -40,9 +34,7 @@ private:
     VertexBufferLayout * layout;
     IndexBuffer * ib;
 
-
 public:
-
     Circle(float startx, float starty, float r);
     int setColor(vec3 color);
     int draw();

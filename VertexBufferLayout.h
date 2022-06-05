@@ -3,13 +3,14 @@
 #include <OpenGL/gl3.h>
 #include "Renderer.h"
 
-struct VertexBufferElement {
-
+struct VertexBufferElement
+{
     unsigned int type;
     unsigned int count;
     unsigned char normalized;
 
-    static unsigned int GetSizeOfType(unsigned int type) {
+    static unsigned int GetSizeOfType(unsigned int type)
+    {
         switch(type) {
             case GL_FLOAT: return 4;
             case GL_UNSIGNED_INT: return 4;
@@ -18,14 +19,15 @@ struct VertexBufferElement {
         ASSERT(false);
         return 0;
     }
-
 };
 
-class VertexBufferLayout{
+class VertexBufferLayout
+{
 
 private:
     std::vector<VertexBufferElement> m_Elements;
     unsigned int m_Stride;
+    
 public:
     VertexBufferLayout()
         : m_Stride(0) {}

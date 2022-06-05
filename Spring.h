@@ -5,11 +5,13 @@
 #include <SDL.h>
 
 
-class Spring {
+class Spring
+{
 
 public:
 
-    Spring(Ball * ball_1, Ball * ball_2);
+    Spring(Ball * ball_1, Ball * ball_2, float damping, float springForce);
+    
     void draw();
     void update();
     void updatePhysics();
@@ -18,8 +20,10 @@ public:
     float restingLength;
     float relativeLength;
     float dampingFactor;
+    float springForceFactor;
 
     Ball * ball1;
     Ball * ball2;
     Line * line;
+
 };

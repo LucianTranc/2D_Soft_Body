@@ -17,12 +17,12 @@ class ObjectManager {
 
 public:
 
-    void AddBall(float px, float py, float r, const char * texturePath);
+    void AddBall(float px, float py, float r, float m);
     void AddEdge(float px1, float py1, float px2, float py2, float r);
-    void AddSpring(Ball * ball_1, Ball * ball_2);
+    void AddSpring(Ball * ball_1, Ball * ball_2, float damping, float spring);
     void AddLine(float px1, float py1, float px2, float py2);
     void AddCircle(float px, float py, float r);
-    void AddSoftBody(int px, int py, float s, float h, float w);
+    void AddSoftBody(int px, int py, float s, float h, float w, float r, float m, float damping, float spring);
     void drawGizmos();
     void drawBalls();
     void drawEdges();

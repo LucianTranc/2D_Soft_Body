@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL.h>
 #include "Vector2D.h"
-#include "Texture.h"
 #include "Circle.h"
 
 class Collider;
@@ -10,20 +9,17 @@ class Ball {
 
 public:
 
-    Ball(float posx, float posy, float r, const char * texturePath = nullptr);
+    Ball(float posx, float posy, float r, float m);
 
     void printBall();
     void draw();
     void update();
     void updatePhysics();
-    void resetCue();
 
     Circle * circle;
 
     Vector2D position;
-    //Vector2D texPos;
     Vector2D velocity;
-    //Texture * texture;
     float radius;
     float mass = 10;
 

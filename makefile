@@ -1,12 +1,12 @@
 CC = g++
 CFLAGS = -Wall -std=c++11
-INC_PATH = -I /Library/Frameworks/SDL2.framework/Headers -I /Library/Frameworks/SDL2_image.framework/Headers -I /Library/Frameworks/SDL2_ttf.framework/Headers
-LDFLAGS = -l SDL2-2.0.0 -l SDL2_image-2.0.0 -l SDL2_ttf-2.0.0
+INC_PATH = -I /Library/Frameworks/SDL2.framework/Headers
+LDFLAGS = -l SDL2-2.0.0
 
 trancengine: main.o
-	$(CC) $(CFLAGS) $(INC_PATH) $(LDFLAGS) -framework OpengL bin/main.o bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/ObjectManager.o bin/Edge.o bin/Background.o bin/Spring.o bin/Line.o bin/SoftBody.o bin/Circle.o -o play
+	$(CC) $(CFLAGS) $(INC_PATH) $(LDFLAGS) -framework OpengL bin/main.o bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/Ball.o bin/Collision.o bin/ObjectManager.o bin/Edge.o bin/Spring.o bin/Line.o bin/SoftBody.o bin/Circle.o -o play
 
-main.o: main.cpp bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/stb_image.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/ObjectManager.o bin/Edge.o bin/Background.o bin/Spring.o bin/Line.o bin/SoftBody.o bin/Circle.o
+main.o: main.cpp bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/Ball.o bin/Collision.o bin/ObjectManager.o bin/Edge.o bin/Spring.o bin/Line.o bin/SoftBody.o bin/Circle.o
 	$(CC) $(CFLAGS) $(INC_PATH) main.cpp -c -o bin/main.o
 
 bin/Renderer.o: Renderer.cpp Renderer.h
@@ -24,12 +24,6 @@ bin/VertexArray.o: VertexArray.cpp VertexArray.h
 bin/Shader.o: Shader.cpp Shader.h
 	$(CC) $(CFLAGS) $(INC_PATH) Shader.cpp -c -o bin/Shader.o
 
-bin/Texture.o: Texture.cpp Texture.h
-	$(CC) $(CFLAGS) $(INC_PATH) Texture.cpp -c -o bin/Texture.o
-
-bin/stb_image.o: vendor/stb_image/stb_image.cpp vendor/stb_image/stb_image.h
-	$(CC) $(CFLAGS) $(INC_PATH) vendor/stb_image/stb_image.cpp -c -o bin/stb_image.o
-
 bin/Game.o: Game.cpp Game.h
 	$(CC) $(CFLAGS) $(INC_PATH) Game.cpp -c -o bin/Game.o
 
@@ -38,9 +32,6 @@ bin/Vector2D.o: Vector2D.cpp Vector2D.h
 
 bin/AssetManager.o: AssetManager.cpp AssetManager.h
 	$(CC) $(CFLAGS) $(INC_PATH) AssetManager.cpp -c -o bin/AssetManager.o
-
-bin/TextureManager.o: TextureManager.cpp TextureManager.h
-	$(CC) $(CFLAGS) $(INC_PATH) TextureManager.cpp -c -o bin/TextureManager.o
 
 bin/Ball.o: Ball.cpp Ball.h
 	$(CC) $(CFLAGS) $(INC_PATH) Ball.cpp -c -o bin/Ball.o
@@ -53,9 +44,6 @@ bin/ObjectManager.o: ObjectManager.cpp ObjectManager.h
 
 bin/Edge.o: Edge.cpp Edge.h
 	$(CC) $(CFLAGS) $(INC_PATH) Edge.cpp -c -o bin/Edge.o
-
-bin/Background.o: Background.cpp Background.h
-	$(CC) $(CFLAGS) $(INC_PATH) Background.cpp -c -o bin/Background.o
 
 bin/Spring.o: Spring.cpp Spring.h
 	$(CC) $(CFLAGS) $(INC_PATH) Spring.cpp -c -o bin/Spring.o

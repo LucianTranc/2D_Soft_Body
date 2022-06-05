@@ -8,7 +8,7 @@ class SoftBody {
 
 public:
 
-    SoftBody(float xSpawn, float ySpawn, float spacing, int height, int width);
+    SoftBody(float xSpawn, float ySpawn, float spacing, int height, int width, float radius, float m, float damping, float spring);
 
     std::vector<Ball*> balls;
     std::vector<Spring*> springs;

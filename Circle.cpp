@@ -1,19 +1,17 @@
 #include "Circle.h"
 #include "Game.h"
 
-Circle::Circle(float startx, float starty, float r) {
-
-    std::cout<<"creating circle"<<std::endl;
-
+Circle::Circle(float startx, float starty, float r)
+{
     position = vec2(startx, starty);
     radius = r;
 
     float vertices[] = {
         // positions       
-         position.x+radius, position.y+radius, 0.0f,
-         position.x+radius, position.y-radius, 0.0f,
-         position.x-radius, position.y-radius, 0.0f,
-         position.x-radius, position.y+radius, 0.0f,
+         0+radius, 0+radius, 0.0f,
+         0+radius, 0-radius, 0.0f,
+         0-radius, 0-radius, 0.0f,
+         0-radius, 0+radius, 0.0f,
     };
 
     unsigned int indices[] = {  
@@ -30,25 +28,27 @@ Circle::Circle(float startx, float starty, float r) {
     va->AddBuffer(*vb, *layout);
     ib = new IndexBuffer(indices, 6);
 
-
     shader->Unbind();
     va->Unbind();
     vb->Unbind();
     ib->Unbind();
 
-    MVP = glm::ortho(0.0f, Game::screenSize->x, Game::screenSize->y, 0.0f);
-
+    glm::vec3 translation(position.x, position.y, 0);
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
+    glm::mat4 projection = glm::ortho(0.0, (double)Game::screenSize->x, (double)Game::screenSize->y, 0.0);
+    MVP = projection * model;
 }
 
-int Circle::setColor(vec3 newcolor) {
+int Circle::setColor(vec3 newcolor)
+{
     color = newcolor;
     return 1;
 }
 
-int Circle::draw() {
-
+int Circle::draw()
+{
     shader->Bind();
-
+    
     glUniformMatrix4fv(glGetUniformLocation(shader->m_RendererID, "MVP"), 1, GL_FALSE, &MVP[0][0]);
 
     glm::vec3 col = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -69,21 +69,17 @@ int Circle::draw() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     return 1;
+
 }
 
-void Circle::update(float startx, float starty, float r) {
-
+void Circle::update(float startx, float starty, float r)
+{
     position = vec2(startx, starty);
     radius = r;
 
-    float vertices[] = {
-        // positions       
-         position.x+radius, position.y+radius, 0.0f,
-         position.x+radius, position.y-radius, 0.0f,
-         position.x-radius, position.y-radius, 0.0f,
-         position.x-radius, position.y+radius, 0.0f,
-    };
-
-    vb->UpdateBuffer(vertices, 12 * sizeof(float));
+    glm::vec3 translation(position.x, position.y, 0);
+    glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
+    glm::mat4 projection = glm::ortho(0.0, (double)Game::screenSize->x, (double)Game::screenSize->y, 0.0);
+    MVP = projection * model;
 
 }

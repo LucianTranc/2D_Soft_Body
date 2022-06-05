@@ -31,11 +31,11 @@ private:
     VertexArray * va;
     VertexBuffer * vb;
     VertexBufferLayout * layout;
+
 public:
 
     Line(float startx, float starty, float endx, float endy);
     int setColor(vec3 color);
     int draw();
     void update(float startx, float starty, float endx, float endy, vec3 color);
- 
 };

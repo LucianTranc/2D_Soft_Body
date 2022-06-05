@@ -1,8 +1,8 @@
 #include "Line.h"
 #include "Game.h"
 
-Line::Line(float startx, float starty, float endx, float endy) {
-
+Line::Line(float startx, float starty, float endx, float endy)
+{
     startPoint = vec2(startx, starty);
     endPoint = vec2(endx, endy);
     lineColor = vec3(0,0,0);
@@ -24,15 +24,16 @@ Line::Line(float startx, float starty, float endx, float endy) {
     vb->Unbind();
 
     MVP = glm::ortho(0.0f, Game::screenSize->x, Game::screenSize->y, 0.0f);
-
 }
 
-int Line::setColor(vec3 color) {
+int Line::setColor(vec3 color)
+{
     lineColor = color;
     return 1;
 }
 
-int Line::draw() {
+int Line::draw()
+{
     shader->Bind();
 
     glUniformMatrix4fv(glGetUniformLocation(shader->m_RendererID, "MVP"), 1, GL_FALSE, &MVP[0][0]);
@@ -40,11 +41,12 @@ int Line::draw() {
 
     va->Bind();
     glDrawArrays(GL_LINES, 0, 2);
+
     return 1;
 }
 
-void Line::update(float startx, float starty, float endx, float endy, vec3 color) {
-
+void Line::update(float startx, float starty, float endx, float endy, vec3 color)
+{
     startPoint = vec2(startx, starty);
     endPoint = vec2(endx, endy);
     lineColor = color;
@@ -55,5 +57,4 @@ void Line::update(float startx, float starty, float endx, float endy, vec3 color
     };
 
     vb->UpdateBuffer(positions, 4 * sizeof(float));
-    
 }

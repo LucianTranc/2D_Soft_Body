@@ -2,17 +2,18 @@
 #include "Game.h"
 
 //initialize variables
-Spring::Spring(Ball * ball_1, Ball * ball_2) {
-
+Spring::Spring(Ball * ball_1, Ball * ball_2, float damping, float springForce)
+{
     ball1 = ball_1;
     ball2 = ball_2;
     line = new Line(ball1->position.x, ball1->position.y, ball2->position.x, ball2->position.y);
     restingLength = sqrt(pow(ball2->position.x - ball1->position.x, 2) + pow(ball2->position.y - ball1->position.y, 2) * 1.0);
-
+    dampingFactor = damping;
+    springForceFactor = springForce;
 }
 
-void Spring::updatePhysics() {
-
+void Spring::updatePhysics()
+{
     length = sqrt(pow(ball2->position.x - ball1->position.x, 2) + pow(ball2->position.y - ball1->position.y, 2) * 1.0);
 
     relativeLength = length - restingLength;
@@ -30,33 +31,30 @@ void Spring::updatePhysics() {
     vec2 springForceA = normalizedDirectionA * relativeLength;
     vec2 springForceB = normalizedDirectionB * relativeLength;
 
-    springForceA = springForceA/20.0f;
-    springForceB = springForceB/20.0f;
+    springForceA = springForceA/springForceFactor;
+    springForceB = springForceB/springForceFactor;
 
     ball1->velocity.x = ball1->velocity.x + springForceA.x;
     ball1->velocity.y = ball1->velocity.y + springForceA.y;
     ball2->velocity.x = ball2->velocity.x + springForceB.x;
     ball2->velocity.y = ball2->velocity.y + springForceB.y;
 
-    dampingForceA = dampingForceA/5.0f;
-    dampingForceB = dampingForceB/5.0f;
+    dampingForceA = dampingForceA/dampingFactor;
+    dampingForceB = dampingForceB/dampingFactor;
 
     ball1->velocity.x = ball1->velocity.x + dampingForceA.x;
     ball1->velocity.y = ball1->velocity.y + dampingForceA.y;
     ball2->velocity.x = ball2->velocity.x + dampingForceB.x;
     ball2->velocity.y = ball2->velocity.y + dampingForceB.y;
-
-
-    // need an output x and y difference for both balls connected to the spring
 }
 
-void Spring::update() {
-
+void Spring::update()
+{
     vec3 color = {relativeLength/5, 0, -relativeLength/5};
-
     line->update(ball1->position.x, ball1->position.y, ball2->position.x, ball2->position.y, color);
 }
 
-void Spring::draw() {
+void Spring::draw()
+{
     line->draw();
 }
