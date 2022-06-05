@@ -39,6 +39,13 @@ void ObjectManager::drawLines()
 	}
 }
 
+void ObjectManager::drawCircles()
+{
+    for (auto & c : circles) {
+    	c->draw();
+	}
+}
+
 //draw all the edges
 void ObjectManager::drawEdges() {
 
@@ -83,6 +90,12 @@ void ObjectManager::AddSpring(Ball * ball_1, Ball * ball_2) {
 void ObjectManager::AddLine(float px1, float py1, float px2, float py2) {
 
     lines.push_back(new Line(px1, py1, px2, py2));
+
+}
+
+void ObjectManager::AddCircle(float px, float py, float r) {
+
+    circles.push_back(new Circle(px, py, r));
 
 }
 

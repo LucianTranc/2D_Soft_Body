@@ -4,9 +4,9 @@ INC_PATH = -I /Library/Frameworks/SDL2.framework/Headers -I /Library/Frameworks/
 LDFLAGS = -l SDL2-2.0.0 -l SDL2_image-2.0.0 -l SDL2_ttf-2.0.0
 
 trancengine: main.o
-	$(CC) $(CFLAGS) $(INC_PATH) $(LDFLAGS) -framework OpengL bin/main.o bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/ObjectManager.o bin/Edge.o bin/Background.o bin/Spring.o bin/Line.o bin/SoftBody.o -o play
+	$(CC) $(CFLAGS) $(INC_PATH) $(LDFLAGS) -framework OpengL bin/main.o bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/ObjectManager.o bin/Edge.o bin/Background.o bin/Spring.o bin/Line.o bin/SoftBody.o bin/Circle.o -o play
 
-main.o: main.cpp bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/stb_image.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/ObjectManager.o bin/Edge.o bin/Background.o bin/Spring.o bin/Line.o bin/SoftBody.o
+main.o: main.cpp bin/Renderer.o bin/VertexBuffer.o bin/IndexBuffer.o bin/VertexArray.o bin/Shader.o bin/Texture.o bin/stb_image.o bin/Game.o bin/Vector2D.o bin/AssetManager.o bin/TextureManager.o bin/Ball.o bin/Collision.o bin/ObjectManager.o bin/Edge.o bin/Background.o bin/Spring.o bin/Line.o bin/SoftBody.o bin/Circle.o
 	$(CC) $(CFLAGS) $(INC_PATH) main.cpp -c -o bin/main.o
 
 bin/Renderer.o: Renderer.cpp Renderer.h
@@ -65,6 +65,9 @@ bin/Line.o: Line.cpp Line.h
 
 bin/SoftBody.o: SoftBody.cpp SoftBody.h
 	$(CC) $(CFLAGS) $(INC_PATH) SoftBody.cpp -c -o bin/SoftBody.o
+
+bin/Circle.o: Circle.cpp Circle.h
+	$(CC) $(CFLAGS) $(INC_PATH) Circle.cpp -c -o bin/Circle.o
 
 clean :
 	-rm *.o bin/*.o play

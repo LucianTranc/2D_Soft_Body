@@ -61,6 +61,10 @@ public:
 	Shader * shader;
 	Texture * texture; */
 
+	Circle * circle1;
+	Circle * circle2;
+	Circle * circle3;
+
 private:
 
 	SDL_Window* window;

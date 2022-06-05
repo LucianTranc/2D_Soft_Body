@@ -4,6 +4,7 @@
 #include "Edge.h"
 #include "Spring.h"
 #include "Line.h"
+#include "Circle.h"
 #include "SoftBody.h"
 #include <SDL.h>
 #include <vector>
@@ -20,12 +21,14 @@ public:
     void AddEdge(float px1, float py1, float px2, float py2, float r);
     void AddSpring(Ball * ball_1, Ball * ball_2);
     void AddLine(float px1, float py1, float px2, float py2);
+    void AddCircle(float px, float py, float r);
     void AddSoftBody(int px, int py, float s, float h, float w);
     void drawGizmos();
     void drawBalls();
     void drawEdges();
     void drawSprings();
     void drawLines();
+    void drawCircles();
     void updatePhysics();
     void update();
     bool BallsAreMoving();
@@ -39,6 +42,7 @@ public:
     std::vector<Edge*> edges;
     std::vector<Spring*> springs;
     std::vector<Line*> lines;
+    std::vector<Circle*> circles;
     std::vector<SoftBody*> softBodies;
 
     //list of collisions
