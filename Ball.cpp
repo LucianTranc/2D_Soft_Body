@@ -8,11 +8,13 @@ Ball::Ball(float posx, float posy, float r,  const char * texturePath) {
     position.y = posy;
     radius = r;
 
-    texPos.x = position.x - radius;
-	texPos.y = position.y - radius;
+    circle = new Circle(posx, posy, r);
 
-    if (texturePath)
-        texture = Game::assetManager->GetTexture(texturePath);
+    //texPos.x = position.x - radius;
+	//texPos.y = position.y - radius;
+
+    //if (texturePath)
+    //    texture = Game::assetManager->GetTexture(texturePath);
 
 }
 
@@ -41,17 +43,8 @@ void Ball::resetCue() {
 void Ball::draw() {
 
     //only draw the ball if it is initialized with a texture
-    if (texture) {
-        texture->Bind();
-        glm::vec3 translation(texPos.x, texPos.y, 0);
-        glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
-        model = glm::scale(model, glm::vec3(1.0f));
-        glm::mat4 projection = glm::ortho(0.0, (double)Game::screenSize->x, (double)Game::screenSize->y, 0.0);
-        glm::mat4 mvp = projection * model;
-        texture->shader->Bind();
-        texture->shader->SetUniformMat4f("u_MVP", mvp);
-        Game::renderer->Draw(*(texture->va), *(texture->ib), *(texture->shader));
-    }
+    
+    circle->draw();
     
 }
 
@@ -95,7 +88,8 @@ void Ball::update() {
         position.y = 0;
 
     //update the texture position with the new position set in updatePhysics()
-    texPos.x = position.x - radius;
-    texPos.y = position.y - radius;
+    circle->update(position.x, position.y, radius);
+    //texPos.x = position.x - radius;
+    //texPos.y = position.y - radius;
     
 }

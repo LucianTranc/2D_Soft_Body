@@ -8,8 +8,7 @@ Line::Line(float startx, float starty, float endx, float endy) {
     lineColor = vec3(0,0,0);
 
     float positions[] = {
-        startx, starty,
-        endx, endy,
+        startx, starty, endx, endy,
     };
     
     shader = Game::assetManager->GetShader("line");

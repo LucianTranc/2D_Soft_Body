@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "Vector2D.h"
 #include "Texture.h"
+#include "Circle.h"
 
 class Collider;
 
@@ -17,10 +18,12 @@ public:
     void updatePhysics();
     void resetCue();
 
+    Circle * circle;
+
     Vector2D position;
-    Vector2D texPos;
+    //Vector2D texPos;
     Vector2D velocity;
-    Texture * texture;
+    //Texture * texture;
     float radius;
     float mass = 10;
 

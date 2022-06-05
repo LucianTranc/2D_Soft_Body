@@ -27,7 +27,6 @@ private:
     float radius;
     mat4 MVP = mat4(1.0);
     vec3 color;
-    Shader * shader;
 /*  VertexArray * va;
     VertexBuffer * vb;
     VertexBufferLayout * layout; */
@@ -35,11 +34,11 @@ private:
     unsigned int VBO;
     unsigned int EBO;
 
-    unsigned int mvpLoc;
-    unsigned int colorLoc;
-    unsigned int resolutionLoc;
-    unsigned int centerPosLoc;
-    unsigned int radiusLoc;
+    Shader * shader;
+    VertexArray * va;
+    VertexBuffer * vb;
+    VertexBufferLayout * layout;
+    IndexBuffer * ib;
 
 
 public:
@@ -47,6 +46,6 @@ public:
     Circle(float startx, float starty, float r);
     int setColor(vec3 color);
     int draw();
-    void update(float startx, float starty, float r, vec3 color);
+    void update(float startx, float starty, float r);
  
 };

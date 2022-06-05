@@ -20,25 +20,21 @@ Circle::Circle(float startx, float starty, float r) {
         0, 1, 3, // first triangle
         1, 2, 3  // second triangle
     };
+    
+    shader = Game::assetManager->GetShader("circle");
 
-	shader = Game::assetManager->GetShader("circle");
+    va = new VertexArray();
+    vb = new VertexBuffer(vertices, 12 * sizeof(float));
+	layout = new VertexBufferLayout();
+    layout->Push<float>(3);
+    va->AddBuffer(*vb, *layout);
+    ib = new IndexBuffer(indices, 6);
 
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
 
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    glGenBuffers(1, &EBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	shader->Bind();
+    shader->Unbind();
+    va->Unbind();
+    vb->Unbind();
+    ib->Unbind();
 
     MVP = glm::ortho(0.0f, Game::screenSize->x, Game::screenSize->y, 0.0f);
 
@@ -55,7 +51,7 @@ int Circle::draw() {
 
     glUniformMatrix4fv(glGetUniformLocation(shader->m_RendererID, "MVP"), 1, GL_FALSE, &MVP[0][0]);
 
-    glm::vec3 col = glm::vec3(1.0f, 0.1f, 0.1f);
+    glm::vec3 col = glm::vec3(0.0f, 0.0f, 0.0f);
     glUniform3fv(glGetUniformLocation(shader->m_RendererID, "color"), 1, glm::value_ptr(col));
 
     glm::vec2 res = glm::vec2(Game::screenSize->x, Game::screenSize->y);
@@ -67,11 +63,27 @@ int Circle::draw() {
     glUniform1f(glGetUniformLocation(shader->m_RendererID,"uRadius"), radius);
 
     shader->Bind();
+    ib->Bind();
+    va->Bind();
 
-    glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-
-
     return 1;
+}
+
+void Circle::update(float startx, float starty, float r) {
+
+    position = vec2(startx, starty);
+    radius = r;
+
+    float vertices[] = {
+        // positions       
+         position.x+radius, position.y+radius, 0.0f,
+         position.x+radius, position.y-radius, 0.0f,
+         position.x-radius, position.y-radius, 0.0f,
+         position.x-radius, position.y+radius, 0.0f,
+    };
+
+    vb->UpdateBuffer(vertices, 12 * sizeof(float));
+
 }
